@@ -10,6 +10,7 @@ This step by step documentation, will serve as consulting material for further s
 
 - [Basic Routes and Views](#basic-routes-and-views)
 - [Pass Request Data to Views](#pass-request-data-to-views)
+- [Route Wildcards](#route-wildcards)
 
 ---
 
@@ -117,3 +118,39 @@ Or maybe you want to do not skip the query parameter, for this you can use the d
 ```php
 <p>{{!! $name !!}}</p>
 ```
+Back to [Index](#index)
+
+---
+
+## Route Wildcards
+
+We can pass data on the url as parameter like:
+```url
+localhost:8000/posts/123
+```
+This is called wildcards, this url will match the `posts` view then match the `123` parameter.
+
+Go to [routes/web.php](routes/web.php), then create the file [posts.blade.php](resources/views.posts.blade.php)
+
+Back to [routes/web.php](routes/web.php), create a new route to test the parameter passed by url.
+```php
+Route::get('/posts/{post_id}', function($post_id) {
+  $posts = [
+    'post1' => 'This is the first post',
+    'post2' => 'The second post',
+  ];
+  // Verify if the object key exists
+  if(! array_key_exists($post_id, $posts)) {
+    abort(404, "Key was not found");
+  }
+
+  return view('posts', [
+    'post' => $posts[$post_id],
+  ]);
+});
+```
+>arr_key_exists(parameter : variable, array) : This method verifies if the key exists in the array.
+
+Back to [Index](#index)
+
+---
