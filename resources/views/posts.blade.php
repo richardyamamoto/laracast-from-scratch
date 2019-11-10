@@ -9,6 +9,6 @@
 <body>
   <h1>Routes Wildcards</h1>
 
-  <h3>{{ $post }}</h3>
+  <h3>{{ $post->body }}</h3>
 </body>
 </html>

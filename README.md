@@ -11,6 +11,7 @@ This step by step documentation, will serve as consulting material for further s
 - [Basic Routes and Views](#basic-routes-and-views)
 - [Pass Request Data to Views](#pass-request-data-to-views)
 - [Route Wildcards](#route-wildcards)
+- [Setup Database Connection](#setup-database-connection)
 
 ---
 
@@ -171,7 +172,6 @@ We'll create the `PostsController`
 ```bash
 php artisan make:controller PostsController
 ```
-
 Then inside the brand new controller [app/Http/Controllers/PostsController.php](app/Http/Controllers/PostsController.php) create the method show and put the block of code we just created on last section.
 ```php
 public function show($post_id)
@@ -187,6 +187,85 @@ public function show($post_id)
       'post' => $posts[$post_id],
   ]);
 }
+```
+Back to [Index](#index)
+
+---
+
+## Setup Database Connection
+
+At [.env](.env) we have the Database environment variables
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=<database_name>
+DB_USERNAME=<user_name>
+DB_PASSWORD=<database_password>
+```
+Change the `DB_DATABASE`, `DB_USERNAME` and `DB_PASSWORD`
+
+Now we have to create the database
+
+First run the terminal
+>We assume that MySQL is installed and running.
+```bash
+mysql -u <user_name> -p
+```
+Then type your password
+
+Ok, now we use MySQL cli to create our Data Base.
+### SQL commands
+
+[List of commands]( https://www.w3schools.com/sql/)
+
+>SQL commands are not case sensitive
+
+Create the `laravel6` database
+```bash
+CREATE DATABASE laravel6;
+```
+Then select the database
+```bash
+USE laravel6;
+```
+Create the table posts
+```bash
+CREATE TABLE posts(
+  id int auto_increment not null,
+  slug text not null,
+  body text not null,
+  primary key(id)
+);
+```
+Check the details of the table
+```bash
+DESC posts;
+```
+Insert one row to posts table
+```bash
+INSERT INTO posts(slug, body)
+VALUES("post1", "This is the first post");
+```
+Show table data
+```bash
+SELECT * FROM posts;
+```
+Now back to our [PostController](app/Http/Controllers/PostsController.php)
+```php
+public function show($slug) {
+  $post = \DB::table('posts')->where('slug', $slug)->first();
+  // dd($post); // dump and die -> shows data and stop execution, justo to check the data is coming
+
+  return view('posts',[
+    'post' => $post,
+  ]);
+}
+```
+
+This way we are receiving an object, so at [posts.blade.php](resources/views/posts.blade.php) put
+```php
+{{ $post->body }}
 ```
 Back to [Index](#index)
 
