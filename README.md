@@ -12,6 +12,7 @@ This step by step documentation, will serve as consulting material for further s
 - [Pass Request Data to Views](#pass-request-data-to-views)
 - [Route Wildcards](#route-wildcards)
 - [Setup Database Connection](#setup-database-connection)
+- [Eloquent model](#eloquent-model)
 
 ---
 
@@ -267,6 +268,34 @@ This way we are receiving an object, so at [posts.blade.php](resources/views/pos
 ```php
 {{ $post->body }}
 ```
+Back to [Index](#index)
+
+---
+
+## Eloquent model
+
+The model will allocate the business rules of database.
+
+To create it we use
+```bash
+php artisan make: model Post
+```
+
+At the [PostsController](app/Http/Controllers/PostsController.php), import
+```php
+App\Post;
+```
+And use the model to query data
+```php
+public function show($slug) {
+  $post = Post::where('slug',$slug)->firstOrFail();
+  return view('posts',[
+    'post' => $post,
+  ])
+}
+```
+>firstOrFail() -> Will return the first, if it fails, aborts
+
 Back to [Index](#index)
 
 ---
