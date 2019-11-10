@@ -14,6 +14,7 @@
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+
 // ---section2-class1---
 // Route::get('/welcome', function () {
 //     return "<h1>Hello Internet</h1>";
@@ -21,6 +22,16 @@
 // Route::get('/welcome2', function () {
 //     return ["foo" => "json/array"];
 // });
+// Route::get('/test', function() {
+//     return view('test');
+// });
+
 Route::get('/test', function() {
-    return view('test');
+    // $name = request('name');
+    // return view('test', [
+    //     "name" => $name,
+    // ]);
+    return view('test', [
+        "name" => request('name'),
+    ]);
 });

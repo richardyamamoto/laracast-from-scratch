@@ -8,18 +8,19 @@ This step by step documentation, will serve as consulting material for further s
 
 ## Index
 
-- [Routing](#routing)
+- [Basic Routes and Views](#basic-routes-and-views)
+- [Pass Request Data to Views](#pass-request-data-to-views)
 
 ---
 
-## Routing
+## Basic Routes and Views
 
 To start the application we use the following command at the project folder
 ```bash
 php artisan serve
 ```
 
-The **views** files will be placed at [resources/views](/resources/views/welcome.blade.php), the [Blade](https://laravel.com/docs/6.x/blade) extension template.
+The **views** files will be placed at [resources/views](/resources/views/welcome.blade.php) using the [Blade](https://laravel.com/docs/6.x/blade) template engine.
 
 Go to [routes/web.php](routes/web.php), notice that we have
 ```php
@@ -54,3 +55,65 @@ Route::get('/test', function() {
 Back to [Index](#index)
 
 ---
+
+## Pass Request Data to Views
+
+We can pass request data via query parameters.
+```url
+localhost:8000/test?name=Richard
+```
+
+To retrieve the data we use method `request(query_name : string)`
+
+We can make it directly from the routes, just for visualization
+```php
+Route::get('/test', function() {
+  $name = request('name');
+  return $name;
+})
+```
+But if I want to show this data directly from the view and not from routes?
+
+The method `view()`, waits as second parameter an object with properties.
+
+```php
+Route::get('/test', function() {
+  $name = request('name');
+  return view('test', [
+    "name" => $name,
+  ])
+});
+```
+Refactoring the code above
+```php
+Route::get('/test', function() {
+  return view('test', [
+    "name" => request('name'),
+  ])
+})
+```
+To receive this data, there is some ways, first go to [resources/views/test.blade.php](resources/views/test.blade.php) and use the tag
+```php
+<?= $name ?>
+```
+This tag is a shorthand of
+```php
+<?php
+  echo $name;
+?>
+```
+Now come back to the browser and refresh. The result should be the same.
+
+But this way, the user are able to insert whatever he want's without any validation. Try this at the url adress
+
+```url
+localhost:8000/test?name=<script>alert("Hello");</script>
+```
+To solve this problem, we can use the `htmlspecialchars(variable, ENT_QUOTES)`. Go to test view
+```php
+<?= htmlspecialchars($name, ENT_QUOTES); ?>
+```
+Or maybe you want to do not skip the query parameter, for this you can use the double brackets with two pair of exlamation marks.
+```php
+<p>{{!! $name !!}}</p>
+```

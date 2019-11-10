@@ -7,6 +7,9 @@
   <title>Teste</title>
 </head>
 <body>
-  <h1>Teste view</h1>
+  <h1>Test view</h1>
+  <p><?= htmlspecialchars($name, ENT_QUOTES); ?></p>
+  <p>{{ $name }}</p>
+  <p>{{!! $name !!}}</p>
 </body>
 </html>
