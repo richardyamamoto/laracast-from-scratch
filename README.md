@@ -154,3 +154,40 @@ Route::get('/posts/{post_id}', function($post_id) {
 Back to [Index](#index)
 
 ---
+
+## Routing to Controllers
+
+The way we are doing till now is just for learning. But the right way is routing to Controllers.
+
+At [routes/web.php](routes/web.php), just declare the route to controller
+```php
+Route::get('/posts/{post_id}', 'PostsController@show');
+```
+There is an automated way to create the controller
+```bash
+php artisan make:controller <controller_name>
+```
+We'll create the `PostsController`
+```bash
+php artisan make:controller PostsController
+```
+
+Then inside the brand new controller [app/Http/Controllers/PostsController.php](app/Http/Controllers/PostsController.php) create the method show and put the block of code we just created on last section.
+```php
+public function show($post_id)
+{
+  $posts = [
+      'post1' => 'This is the first post',
+      'post2' => 'The second post',
+  ];
+  if (!array_key_exists($post_id, $posts)) {
+      abort(404, 'Key was not found');
+  }
+  return view('posts', [
+      'post' => $posts[$post_id],
+  ]);
+}
+```
+Back to [Index](#index)
+
+---
