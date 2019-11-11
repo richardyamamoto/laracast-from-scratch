@@ -13,6 +13,7 @@ This step by step documentation, will serve as consulting material for further s
 - [Route Wildcards](#route-wildcards)
 - [Setup Database Connection](#setup-database-connection)
 - [Eloquent model](#eloquent-model)
+- [Migrations](#migrations)
 
 ---
 
@@ -299,3 +300,61 @@ public function show($slug) {
 Back to [Index](#index)
 
 ---
+
+## Migrations
+
+Usually the creation of tables are made by migrations. This way, everyone that runs the project will have the same database structure.
+
+To create a migration 
+```bash
+php artisan make:migration <migration_name>
+```
+So create the migration for the Posts table
+```bash
+php artisan make:migration create_posts_table
+```
+
+The migration always going to have two methods, `up()` - make changes(moving forward) and `down()` - unmake changes(rollback).
+
+When the migration is created, we should be able to undo the changes.
+
+Create the following columns
+```php
+Schema::create('posts', function (Blueprint $table) {
+  $table->bigIncrements('id');
+  $table->string('slug');
+  $table->text('body');
+  $table->timestamps();
+  $table->timestamp('published_at')->nullable();
+});
+```
+If we need to create a new column, the right way to do that is creating another migration
+```bash
+php artisan make:migration add_title_to_posts_table
+```
+Then on method `up()`
+```php
+Schema::table('posts', function (Blueprint $table) {
+  $table->string('title');
+});
+```
+And following the method `down()`
+```php
+Schema::table('posts', function (Blueprint $table) {
+  $table->dropColumn('title');
+})
+```
+Then run the migration
+```bash
+php artisan migrate
+```
+When on production, if we rollback the migration, all data will be lost. So be careful.
+
+To drop evething and re-run
+```bash
+php artisan migrate:fresh
+```
+Back to [Index](#index)
+
+---
+
