@@ -26,15 +26,15 @@
 //     return view('test');
 // });
 
-Route::get('/test', function() {
-    // $name = request('name');
-    // return view('test', [
-    //     "name" => $name,
-    // ]);
-    return view('test', [
-        'name' => request('name'),
-    ]);
-});
+// Route::get('/test', function() {
+//     // $name = request('name');
+//     // return view('test', [
+//     //     "name" => $name,
+//     // ]);
+//     return view('test', [
+//         'name' => request('name'),
+//     ]);
+// });
 
 // Route::get('/posts/{post_id}', function($post_id) {
 //     $posts = [
@@ -49,11 +49,15 @@ Route::get('/test', function() {
 //     ]);
 // });
 
-Route::get('/posts/{post_id}', 'PostsController@show');
+// Route::get('/posts/{post_id}', 'PostsController@show');
 
 Route::get('', function() {
     return view('welcome');
 });
-Route::get('/contact', function() {
-    return view('contact');
+// Route::get('/contact', function() {
+//     return view('contact');
+// });
+
+Route::get('/about',function() {
+    return view('about');
 });

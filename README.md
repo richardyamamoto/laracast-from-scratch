@@ -17,6 +17,7 @@ This step by step documentation, will serve as consulting material for further s
 - [Generate Multiple Files in a Single Command](#generate-multiple-files-in-a-single-command)
 - [Business Logic](#business-logic)
 - [Layout Pages](#layout-pages)
+- [Integrate a Site Template](#integrate-a-site-template)
 
 ---
 
@@ -457,6 +458,43 @@ Route::get('/contact', function() {
 })
 ```
 
+Back to [Index](#index)
+
+---
+
+## Integrate a Site Template
+
+We are using https://templated.co/simplework, after dowload the files, extract files to
+```bash
+public
+  |__css
+  |   |__default.css
+  |   |__fonts.css
+  |__fonts
+  |__images
+```
+Make the pertinent changes to css work again.
+
+Open the downloaded index.html, create a [layout.blade.php](resources/views/layout.blade.php), then cut the content from body tag and put 
+```blade
+<body>
+  @yield('content')
+</body>
+```
+
+Now create [welcome.blade.php](resources/views/welcome.blade.php), extends the layout and put the section blade tag
+```blade
+@extends('layout')
+@section('content')
+  // Paste the content here
+@endsection
+```
+Now go to [routes/web.php](routes/web.php) and create a route redirecting to welcome
+```php
+Route::get('', function(){
+  return view('welcome');
+});
+```
 Back to [Index](#index)
 
 ---
