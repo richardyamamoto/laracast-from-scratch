@@ -17,14 +17,31 @@ Released   : 20140225
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
-<link href="css/default.css" rel="stylesheet"/>
-<link href="css/fonts.css" rel="stylesheet"/>
-
-<!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
+<link href="css/default.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/fonts.css" rel="stylesheet" type="text/css" media="all" />
 
 </head>
 <body>
-    @yield('content')
-    @yield('aboutus')
+<div id="header-wrapper">
+    <div id="header" class="container">
+        <div id="logo">
+            <h1><a href="#">SimpleWork</a></h1>
+        </div>
+        <div id="menu">
+        <ul>
+            <li class="{{ Request::path() === '/' ? 'current_page_item' : '' }}"><a href="/" accesskey="1" title="">Homepage</a></li>
+            <li class="{{ Request::path() === 'clients' ? 'current_page_item' : '' }}"><a href="/clients" accesskey="2" title="">Our Clients</a></li>
+            <li class="{{ Request::path() === 'about' ? 'current_page_item' : '' }}"><a href="/about" accesskey="3" title="">About Us</a></li>
+            <li class="{{ Request::path() === 'carrers' ? 'current_page_item' : '' }}"><a href="/carrers" accesskey="4" title="">Careers</a></li>
+            <li class="{{ Request::path() === 'contacts' ? 'current_page_item' : '' }}"><a href="/contact" accesskey="5" title="">Contact Us</a></li>
+        </ul>
+        </div>
+    </div>
+</div>
+@yield('content')
+@yield('about')
+<div id="copyright" class="container">
+	<p>&copy; Untitled. All rights reserved. | Photos by <a href="http://fotogrph.com/">Fotogrph</a> | Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
+</div>
 </body>
 </html>

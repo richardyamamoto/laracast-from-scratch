@@ -18,6 +18,7 @@ This step by step documentation, will serve as consulting material for further s
 - [Business Logic](#business-logic)
 - [Layout Pages](#layout-pages)
 - [Integrate a Site Template](#integrate-a-site-template)
+- [Set an Active Menu Link](#set-an-active-menu-link)
 
 ---
 
@@ -494,6 +495,26 @@ Now go to [routes/web.php](routes/web.php) and create a route redirecting to wel
 Route::get('', function(){
   return view('welcome');
 });
+```
+Back to [Index](#index)
+
+---
+
+## Set an Active Menu Link
+
+We can easily change the class of an HTML element. In our case, we have to put the class `current_page_item` on each item of the list if we are at its page.
+
+First go to the [layout.blade.php](resources/views/layout.blade.php), there is a `Request` class that has the method `path()` which returns the directory. To solve the problem we take the following approach
+```php
+<div id="menu">
+  <ul>
+    <li class="{{ Request::path() === '/' ? 'current_page_item' : '' }}"><a href="/" accesskey="1" title="">Homepage</a></li>
+    <li class="{{ Request::path() === 'clients' ? 'current_page_item' : '' }}"><a href="/clients" accesskey="2" title="">Our Clients</a></li>
+    <li class="{{ Request::path() === 'about' ? 'current_page_item' : '' }}"><a href="/about" accesskey="3" title="">About Us</a></li>
+    <li class="{{ Request::path() === 'carrers' ? 'current_page_item' : '' }}"><a href="/carrers" accesskey="4" title="">Careers</a></li>
+    <li class="{{ Request::path() === 'contacts' ? 'current_page_item' : '' }}"><a href="/contact" accesskey="5" title="">Contact Us</a></li>
+  </ul>
+</div>
 ```
 Back to [Index](#index)
 
