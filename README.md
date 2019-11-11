@@ -14,6 +14,7 @@ This step by step documentation, will serve as consulting material for further s
 - [Setup Database Connection](#setup-database-connection)
 - [Eloquent model](#eloquent-model)
 - [Migrations](#migrations)
+- [Generate Multiple Files in a Single Command](#generate-multiple-files-in-a-single-command)
 
 ---
 
@@ -358,3 +359,14 @@ Back to [Index](#index)
 
 ---
 
+## Generate Multiple Files in a Single Command
+
+We can generate model, controller and factory with a sigle command line.
+
+On this example we will create a model for Project
+```bash
+php artisan make:model Project -mc
+```
+Back to [Index](#index)
+
+---
