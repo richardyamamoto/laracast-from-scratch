@@ -50,3 +50,10 @@ Route::get('/test', function() {
 // });
 
 Route::get('/posts/{post_id}', 'PostsController@show');
+
+Route::get('', function() {
+    return view('welcome');
+});
+Route::get('/contact', function() {
+    return view('contact');
+});

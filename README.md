@@ -16,6 +16,7 @@ This step by step documentation, will serve as consulting material for further s
 - [Migrations](#migrations)
 - [Generate Multiple Files in a Single Command](#generate-multiple-files-in-a-single-command)
 - [Business Logic](#business-logic)
+- [Layout Pages](#layout-pages)
 
 ---
 
@@ -420,6 +421,42 @@ By the moment we are able to call the method from the instanciated object, reset
 ```
 $assigment->complete();
 ```
+Back to [Index](#index)
+
+---
+
+## Layout Pages
+
+The Layout pages can be seen as a template model structure, this will facilitate by centralizing the import of scripts, styles, etc.
+
+Create a layout and contact view
+
+[resources/views/layout.blade.php](resources/views/layout.blade.php)
+[resources/views/contact.blade.php](resources/views/layout.blade.php)
+
+Then at [layout.blade.php](resources/views/layout.blade.php) copy the HTML structure and the specific HTML will be spit by
+```
+@yield('welcome')
+@yield('contact')
+```
+At the place we put it.
+
+Go to [contact.blade.php](resources/views/layout.blade.php)and place the blade section syntax and extends
+```blade
+@extends('layout')
+@section('contact')
+  <h1>Contact page</h1>
+@endsection
+```
+And do the same to Welcome view.
+
+Go to [routes/web.php](routes/web.phproutes/web.php) and create a route to Contact page
+```php
+Route::get('/contact', function() {
+  return view('contact');
+})
+```
+
 Back to [Index](#index)
 
 ---
