@@ -19,6 +19,7 @@ This step by step documentation, will serve as consulting material for further s
 - [Layout Pages](#layout-pages)
 - [Integrate a Site Template](#integrate-a-site-template)
 - [Set an Active Menu Link](#set-an-active-menu-link)
+- [Render Dynamic Data](#render-dynamic-data)
 
 ---
 
@@ -519,3 +520,74 @@ First go to the [layout.blade.php](resources/views/layout.blade.php), there is a
 Back to [Index](#index)
 
 ---
+
+## Render Dynamic Data
+
+We are going to create some articles to render it dynamically, first of all, we create an eloquent model
+```bash
+php artisan make:model Article -mc
+```
+Go to the Article migration and put the columns
+```php
+public function up()
+{
+  Schema::create('articles', function (Blueprint $table) {
+    $table->bigIncrements('id');
+    $table->string('title');
+    $table->text('excerpt');
+    $table->text('body');
+    $table->timestamps();
+  });
+}
+```
+Run the migration 
+```bash
+php artisan migrate
+```
+Right after, enter Tinker to add some data to Database
+```tinker
+$article = new App\Article
+$article->title = "Something for the title"
+$article->body = "Something for the body"
+$article->excerpt = "Something for excerpt"
+$article->save()
+```
+Navigate to the Routes [routes/web.php](routes/web.php), we are going to edit the Contact page route, just fetch the data from DB(for test)
+```php
+Route::get('/contact', function() {
+  $article = App\Article::all();
+  return $article;
+});
+```
+>Method `all()` show all the data from the migration
+
+>Method `take(number_of_items : int)` show the specific number of items 
+
+>Method `paginate(number_of_items_per_page : int)` show the specific number of items per page
+
+We can ordinate using method `latest(column_name : string)` providing any timestamp
+>As default it will order by created_at descending order
+```php
+Route::get('/contact', function() {
+  return view('about', [
+    'articles' => $articles = App\Article::latest()->get();
+  ])
+});
+```
+Go to [about.blade.php](resources/views/about.blade.php), and find the list to recover the article object.
+
+Using for each to render multiple items
+```php
+@foreach ($articles as $article) 
+  <li class="first">
+    <h3>{{ $article->title }}</h3>
+    <p><a href="#">{{ $article->excerpt}}</a></p>
+  </li>
+@endforeach
+```
+By now, the articles must be rendering on the screen.
+
+Back to [Index](#index)
+
+---
+

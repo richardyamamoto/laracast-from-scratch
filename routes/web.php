@@ -59,5 +59,13 @@ Route::get('', function() {
 // });
 
 Route::get('/about',function() {
-    return view('about');
+
+    //$article = App\Article::latest()->get();
+
+    //return $article;
+    return view('about', [
+        //'article' => $article,
+        'articles' => $articles = App\Article::latest()->get(),
+    ]);
 });
+
