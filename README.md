@@ -15,6 +15,7 @@ This step by step documentation, will serve as consulting material for further s
 - [Eloquent model](#eloquent-model)
 - [Migrations](#migrations)
 - [Generate Multiple Files in a Single Command](#generate-multiple-files-in-a-single-command)
+- [Business Logic](#business-logic)
 
 ---
 
@@ -366,6 +367,58 @@ We can generate model, controller and factory with a sigle command line.
 On this example we will create a model for Project
 ```bash
 php artisan make:model Project -mc
+```
+Back to [Index](#index)
+
+---
+
+## Business Logic
+
+We are going to create the Assigment model and controller.
+```bash
+php artisan make:model Assigment -mc
+```
+Then on Assigment migration
+```php
+Schema::create('assigments', function (Blueprint $table) {
+  $table->bigIncrements('id');
+  $table->string('body');
+  $table->boolean('completed')->default(false);
+  $table->timestamp('due-date')->nullable();
+  $table->timestamps();
+});
+```
+Now using Tinker to test
+```bash
+php artisan tinker
+```
+Now we instanciate our model, but first we'll create some data to manipulate
+```
+$assigment = new App\Assigment;
+$assigment->body = "Finish the laravel study";
+```
+We can show all the assigments by
+```
+App\Assigment::all();
+```
+Or query with some filters
+```
+App\Assigment::where('completed', false)->get();
+```
+Knowing that, instanciate the model getting the first result
+```
+$assigment = App\Assigment::first();
+```
+We will change the complete column with a method, so go to Assigment model and create the method `complete()`
+```php
+public function complete() {
+  $this->complete = true;
+  $this->save();
+}
+```
+By the moment we are able to call the method from the instanciated object, reset the tinker bash and run
+```
+$assigment->complete();
 ```
 Back to [Index](#index)
 
